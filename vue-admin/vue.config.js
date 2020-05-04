@@ -57,9 +57,20 @@ module.exports = {
     host: "0.0.0.0", // 指定使用地址，默认localhost,0.0.0.0代表可以被外界访问
     port: 8080, // 访问端口
     https: false, // 编译失败时刷新页面
-    hot: true, // 开启热加载
+    hot: true, // 开启热加载。生产（上线）环境下不能开启，会报错
     hotOnly: false,
-    proxy: null, // 设置代理
+    //配置代理跨域
+    proxy: {
+      // 在开发环境下有效
+      '/devapi': {
+        target: "http://www.web-jshtml.cn/productapi",
+        // ws: true,
+        changOrigin: true,
+        pathRewrite: {    //http://localhost:8090/api/getSms/
+          '^/devapi': '',   //http://www.web-jshtml.cn/productapi/空
+        }
+      }
+    },
     overlay: {
       // 全屏模式下是否显示脚本错误
       warnings: true,
