@@ -9,7 +9,18 @@ module.exports = {
   /**
    * webpack配置,see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
    **/
-  // chainWebpack: config => {},
+  chainWebpack: config => {
+    const svgRule = config.module.rule("svg");
+    svgRule.uses.clear();
+    svgRule
+      .use("svg-sprite-loader")
+      .loader("svg-sprite-loader")
+      .options({
+        symbolId: "icon-[name]",
+        include: ["./src/icons"]
+      });
+
+  },
   configureWebpack: config => {
     config.resolve = {
       // 配置路径解析别名。
@@ -17,6 +28,7 @@ module.exports = {
       extensions: ['.js', '.json', '.vue'],
       // 类似于 “src目录下” 就可以用 “@” 来代替
       alias: {
+        'vue': "vue/dist/vue.js",
         '@': path.resolve(__dirname, './src'),
         '@c': path.resolve(__dirname, './src/components'),
         // 'public': path.resolve(__dirname, './public'),
@@ -63,7 +75,7 @@ module.exports = {
     proxy: {
       // 在开发环境下有效
       '/devapi': {
-        target: "http://www.web-jshtml.cn/productapi",
+        target: "http://www.web-jshtml.cn/productapi/token",    //后面加上“token”是因为会返回一个“用户信息加上token”的接口
         // ws: true,
         changOrigin: true,
         pathRewrite: {    //http://localhost:8090/api/getSms/

@@ -73,7 +73,7 @@
   </div>
 </template>
 <script>
-import * as api from "@/api/login.js";
+import * as api from "../../api/login";
 import sha1 from "js-sha1";
 import { reactive, ref, isRef, toRefs, onMounted } from "@vue/composition-api";
 import { stripscript, VeriEmail, VeriPaw, VeriCode } from "@/utils/index.js";
@@ -286,10 +286,19 @@ export default {
     /*登录｜注册的提示信息 */
     const Message = data => {
       if (data.resCode === 0) {
-        context.root.$message.success(data.message);
+        // 跳转
+        context.root.$router.push("/console");
+        context.root.$message({
+          type: "success",
+          message: data.message,
+          duration: 2500
+        });
       } else {
-        console.log(data.message);
-        context.root.$message.success(data.message);
+        context.root.$message({
+          type: "success",
+          message: data.data.message,
+          duration: 2500
+        });
       }
     };
     /*“获取验证码”回到初始化状态*/
@@ -311,7 +320,8 @@ export default {
             code: ruleForm.ruleCode
           };
           if (modal.value === "login") {
-            let res = await API_Login(FormData);
+            let res = await context.root.$store.dispatch("app/login", FormData);
+            console.log(res);
             Message(res.data);
           } else {
             let res = await API_Register(FormData);

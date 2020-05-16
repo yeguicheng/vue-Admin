@@ -1,0 +1,21 @@
+.el-submenu .el-menu-item.is-active{
+    background: #f56c6c !important ;
+}
+.el-submenu .el-menu-item{
+    font-size: .95rem;
+    // padding-left:50px !important;
+    padding: 0 0 0 18% !important;
+    &.is-active{
+        color: #fff !important;
+        background: #f56c6c !important ;
+    }
+}
+//修改一级菜单的背景色
+// .el-submenu.is-active .el-submenu__title{
+//     background: rgb(108,208,245) !important;
+// }
+li.el-submenu{
+ &.is-active.is-opened .el-submenu__title{
+         background: rgb(108,208,245) !important;
+     }
+}

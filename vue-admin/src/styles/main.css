@@ -47,9 +47,7 @@ html {
    */
 body {
   margin: 0;
-  background-color: #f7f7f7;
-  font-family: 'Microsoft YaHei';
-  font-size: 15px;
+  font-size: 12px;
 }
 
 /**
@@ -367,4 +365,21 @@ template {
 
 ul, li {
   list-style: none;
+}
+
+.el-submenu .el-menu-item.is-active {
+  background: #f56c6c !important;
+}
+
+.el-submenu .el-menu-item {
+  font-size: .95rem;
+  padding-left: 50px !important;
+}
+
+.el-submenu .el-menu-item.is-active {
+  background: rgba(108, 208, 245, 0.2) !important;
+}
+
+li.el-submenu.is-active.is-opened .el-submenu__title {
+  background: #6cd0f5 !important;
 }
