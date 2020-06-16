@@ -11,14 +11,17 @@ import router from "./router";
 import "./router/premit.js"
 // Vuex
 import store from "./store";
+// Vue2.0自定义全局方法
+// import globalMethods from "./utils/global.js";
 // 自定义全局组件
 import "@/views/icons"
 Vue
-  .use(ElementUI)
-  .use(VueCompositionApi)
+	// .use(globalMethods)
+	.use(ElementUI)
+	.use(VueCompositionApi)
 Vue.config.productionTip = false;
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+	router,
+	store,
+	render: h => h(App)
 }).$mount("#app");

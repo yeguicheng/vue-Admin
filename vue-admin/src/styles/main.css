@@ -47,7 +47,7 @@ html {
    */
 body {
   margin: 0;
-  font-size: 12px;
+  font-size: 15px;
 }
 
 /**
@@ -373,13 +373,39 @@ ul, li {
 
 .el-submenu .el-menu-item {
   font-size: .95rem;
-  padding-left: 50px !important;
+  padding: 0 0 0 18% !important;
 }
 
 .el-submenu .el-menu-item.is-active {
-  background: rgba(108, 208, 245, 0.2) !important;
+  color: #fff !important;
+  background: #f56c6c !important;
 }
 
 li.el-submenu.is-active.is-opened .el-submenu__title {
   background: #6cd0f5 !important;
+}
+
+div.el-table td, div.el-table th {
+  text-align: center;
+}
+
+div.el-table th {
+  font-weight: bold;
+  color: #344a5f;
+}
+
+div.el-table td {
+  font-size: 14px;
+}
+
+.pull-left {
+  float: left;
+}
+
+.pull-right {
+  float: right;
+}
+
+.black-space-30 {
+  height: 30px;
 }
