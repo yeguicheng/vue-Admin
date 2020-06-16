@@ -45,14 +45,15 @@
 		<!-- 表格数据 -->
 		<el-table :data="datas.table_data" border style="width: 100%" v-loading="datas.loading" @selection-change="SeleceChange">
 			<el-table-column type="selection" width="47"></el-table-column>
-			<el-table-column prop="title" label="标题" width="450" min-width="450"></el-table-column>
-			<el-table-column prop="categoryId" label="类别" width="130" :formatter="toCategory"></el-table-column>
-			<el-table-column prop="createDate" label="日期" :formatter="toDate" width="237"></el-table-column>
+			<el-table-column prop="title" label="标题" width="420" min-width="400"></el-table-column>
+			<el-table-column prop="categoryId" label="类别" width="100" :formatter="toCategory"></el-table-column>
+			<el-table-column prop="createDate" label="日期" :formatter="toDate" width="200"></el-table-column>
 			<el-table-column prop="user" label="管理员" width="115"></el-table-column>
 			<el-table-column label="操作">
 				<template slot-scope="scope">
 					<el-button type="danger" size="mini" @click="delete_item(scope.row.id)">删除</el-button>
 					<el-button type="success" size="mini" @click="Info_Edit(scope.row.id)">编辑</el-button>
+					<el-button type="success" size="mini" @click="Info_Edit(scope.row.id)">编辑详情</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
