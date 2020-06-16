@@ -12,6 +12,36 @@
   background: #f56c6c !important;
 }
 
-li.el-submenu.is-active.is-opened .el-submenu__title {
-  background: #6cd0f5 !important;
+div.el-table td, div.el-table th {
+  text-align: center;
+}
+
+div.el-table th {
+  font-weight: bold;
+  color: #344a5f;
+}
+
+div.el-table td {
+  font-size: 14px;
+}
+
+.el-dialog__header {
+  padding: 20px 20px 10px 30px !important;
+}
+
+.el-dialog__body {
+  padding: 30px 47px !important;
+}
+
+.el-form .el-form-item:last-child {
+  margin-bottom: 0 !important;
+}
+
+.el-dialog__footer {
+  text-align: center;
+}
+
+.el-dialog__footer .el-button {
+  width: 150px;
+  margin: 0 11px !important;
 }

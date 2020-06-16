@@ -4,3 +4,10 @@
 @import './normalize.scss';
 // 手动修改项目UI的样式
 @import "./elementui.scss";
+.pull-left{float: left;}
+.pull-right{float: right;}
+
+// 占位
+.black-space-30{
+    height: 30px;
+}

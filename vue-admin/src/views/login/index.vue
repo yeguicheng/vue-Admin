@@ -147,7 +147,8 @@ export default {
     /*验证码验证规则*/
     const CodeRules = (rule, value, callback) => {
       // let reg = /^[a-z0-9]{6}/;
-      if (value === "") {
+      console.log(value)
+	  if (value === "") {
         callback(new Error("验证码不能为空!"));
       } else if (!VeriCode(value)) {
         callback(new Error("验证码格式不正确!"));

@@ -39,14 +39,15 @@ module.exports = {
       }
     }
   },
-  // 生产环境是否生成 sourceMap 文件
+  // 生产环境是否生成 source、Map 文件（缺点：打包后的文件增加10kb;优点：错误指示会更加准确）
   productionSourceMap: false,
   // css相关配置
   css: {
     // 是否使用css分离插件 ExtractTextPlugin
     extract: true,
     // 开启 CSS source maps?
-    sourceMap: false,
+    // 这个东西开启，下面的样式才生效
+    sourceMap: true,
     // css预设器配置项
     loaderOptions: {
       sass: {
