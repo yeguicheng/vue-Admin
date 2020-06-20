@@ -53,7 +53,9 @@
 				<template slot-scope="scope">
 					<el-button type="danger" size="mini" @click="delete_item(scope.row.id)">删除</el-button>
 					<el-button type="success" size="mini" @click="Info_Edit(scope.row.id)">编辑</el-button>
-					<el-button type="success" size="mini" @click="Info_Edit(scope.row.id)">编辑详情</el-button>
+					<!-- <router-link :to="{name:'infoDetails',params:{id:scope.row.id,title:scope.row.title}}" class="margin-left-10"> -->
+					<el-button type="success" size="mini" @click="Info_Edit_Details(scope.row)">编辑详情</el-button>
+					<!-- </router-link> -->
 				</template>
 			</el-table-column>
 		</el-table>
@@ -74,7 +76,7 @@
 		<!-- 新增对话框 -->
 		<Dialog :flag.sync="datas.dialog_info" :category="datas.options_CateGory" />
 		<!-- 编辑对话框 -->
-		<Dialog-edit :flag.sync="datas.dialog_edit" :InfoId="datas.editId" :category="datas.options_CateGory" @getInfoList = "API_infoList" />
+		<Dialog-edit :flag.sync="datas.dialog_edit" :InfoId="datas.editId" :category="datas.options_CateGory" @getInfoList="API_infoList" />
 	</div>
 </template>
 <script>
@@ -160,6 +162,33 @@
 				datas.editId = id;
 				// 开启编辑对话框
 				datas.dialog_edit = true;
+			}
+			// 编辑详情时
+			const Info_Edit_Details = ({
+				id
+			}) => {
+				// 不建议用这种方式在跳转时传值，除非数量比较多时
+				// root.$store.commit("InfoDetails/Updates", {
+				// 	Info_id: {
+				// 		value: id,
+				// 		isSession: true
+				// 	},
+				// 	Info_title: {
+				// 		value: title,
+				// 		isSession: true
+				// 	}
+				// })
+				// 开启编辑对话框
+				root.$router.push({
+					path: `/infoDetails/${id}`,
+				})
+				// root.$router.push({
+				// 	name: "infoDetails",
+				// 	params: {
+				// 		id,
+				// 		title
+				// 	}
+				// })
 			}
 			const toDate = (row, column, cellValue, index) => {
 				return transformationTime(row.createDate)
@@ -290,6 +319,7 @@
 				SeleceChange,
 				Search,
 				Info_Edit,
+				Info_Edit_Details,
 				/* reactive */
 				datas,
 			};

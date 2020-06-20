@@ -24,7 +24,8 @@
             <SvgIcon :IconName="item.meta.icon" :IconClass="item.meta.icon" />
             <span>{{item.meta.name}}</span>
           </template>
-          <el-menu-item-group v-for="(vals,ind) of item.children" :key="ind">
+		  <template v-for="(vals,ind) of item.children">
+			  <el-menu-item-group v-if="vals.show"  :key="ind">
             <!-- <template slot="title">{{vals.meta.name}}</template> -->
             <!-- 二级菜单  -->
             <el-menu-item :index="vals.path">
@@ -33,6 +34,8 @@
               {{vals.meta.name}}
             </el-menu-item>
           </el-menu-item-group>
+		  </template>
+          
         </el-submenu>
       </template>
     </el-menu>
