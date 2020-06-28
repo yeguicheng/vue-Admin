@@ -1,5 +1,6 @@
 import {
-	Post
+	Post,
+	Servers
 } from '@/axiosRequest/index.js'
 
 // 新增信息
@@ -51,4 +52,14 @@ export function Delete_category(data) {
 export function Edit_category(data) {
 	const url = "/news/editCategory/";
 	return Post(url, data);
+}
+// 二次封装的表单组件数据
+export function loadData(paramsed) {
+	return Servers({
+		url: paramsed.url,
+		method: paramsed.method || "post",
+		data: paramsed.data || {},
+		params: paramsed.params || {}
+	})
+
 }

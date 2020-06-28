@@ -24,9 +24,10 @@
 				<div class="label-wrap key-word">
 					<label for>关键字:</label>
 					<div class="warp-content">
-						<el-select v-model="datas.Info_rmation.KeyWord" style="width:100%">
+						<el-select :options="datas.options" />
+						<!-- <el-select v-model="datas.Info_rmation.KeyWord" style="width:100%">
 							<el-option v-for="items of datas.options2" :key="items.value" :label="items.label" :value="items.value"></el-option>
-						</el-select>
+						</el-select> -->
 					</div>
 				</div>
 			</el-col>
@@ -102,11 +103,14 @@
 		watch,
 		onMounted
 	} from "@vue/composition-api";
+	// 自封装的下拉列表
+	import ElSelect from "@/components/El-Select"
 	export default {
 		name: "InfomationList",
 		components: {
 			Dialog,
-			DialogEdit
+			DialogEdit,
+			ElSelect
 		},
 		setup(props, {
 			root
@@ -131,17 +135,9 @@
 				editId: null,
 				loading: false, //表单加载状态
 				options_CateGory: [], //分类选项中的数据
-				options2: [ //关键字选项中的数据
-					{
-						value: "id",
-						label: "ID"
-					},
-					{
-						value: "title",
-						label: "标题"
-					}
-				],
-
+				options: {
+					values: ["id", "title"]
+				}, //关键字选项中的数据
 				Info_rmation: {
 					value: "",
 					value2: "",

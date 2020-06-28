@@ -23,7 +23,7 @@ XmlHttpRequest.interceptors.response.use(function (response) {
     // 对响应数据做点什么
     let data = response.data
     // 如果邮箱没有注册过（同时也在说明了,当前的操作是登录），则“data.resCode”等于“0”
-    if (data.resCode !== 0) {
+    if (data && data.resCode !== 0) {
         Message.error(data.message)
         return data
     } else {

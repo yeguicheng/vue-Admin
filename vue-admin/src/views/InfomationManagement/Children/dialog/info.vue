@@ -80,13 +80,10 @@
 			}
 			// 新增信息接口
 			const API_Addinfo = async (params, refname) => {
-				let {
-					data
-				} = await Addinfo(params)
-				let message = data.message
-				if (data.resCode === 0) {
+				let res = await Addinfo(params)
+				if (res.data.resCode === 0) {
 					root.$message({
-						message,
+						message: res.data.message,
 						type: "success"
 					})
 					// 执行父组件的方法更新信息列表
@@ -94,10 +91,8 @@
 					// 重置表单
 					refs[refname].resetFields();
 				} else {
-					root.$message({
-						message,
-						type: "error"
-					})
+					determine_load.value = false;
+					throw res.data.message;
 				}
 				determine_load.value = false;
 			}
@@ -105,9 +100,12 @@
 			const determine = (ref_from) => {
 				determine_load.value = true;
 				let params = {
-					category: Dialog_form.optionId,
+					categoryId: Dialog_form.optionId,
+					imgUrl: null,
+					createDate: null,
+					// category: Dialog_form.optionId,
 					title: Dialog_form.title,
-					content: Dialog_form.content
+					content: Dialog_form.content,
 				}
 				API_Addinfo(params, ref_from)
 				// dialogFormVisible = false
