@@ -39,11 +39,16 @@ export function VeriTitle(val) {
 	}
 	return true;
 }
+//手机号码
+export function VeriPhon(val) {
+	const reg = /^1[3567]\d{9}$/
+	return reg.test(val)
+}
 // 转换为时间日期
-export function transformationTime(time){
+export function transformationTime(time) {
 	let Times = new Date(time * 1000);
 	let Year = Times.getFullYear();
-	let Month = (Times.getMonth()+1) < 10 && `0${Times.getMonth()+1}` || (Times.getMonth()+1);
+	let Month = (Times.getMonth() + 1) < 10 && `0${Times.getMonth()+1}` || (Times.getMonth() + 1);
 	let date = Times.getDate() < 10 && `0${Times.getDate()}` || Times.getDate();
 	let H = Times.getHours() < 10 && `0${Times.getHours()}` || Times.getHours();
 	let M = Times.getMinutes() < 10 && `0${Times.getMinutes()}` || Times.getMinutes();

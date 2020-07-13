@@ -24,7 +24,7 @@
 					style: "black",
 					href: 'data:text/css;base64,LmltcG93ZXJCb3ggLm5vcm1hbFBhbmVse21hcmdpbi10b3A6IDE1cHg7fQouaW1wb3dlckJveCAucXJjb2RlIHt3aWR0aDogMjMwcHg7Ym9yZGVyLWNvbG9yOiNDNUUxRkY7fQouaW1wb3dlckJveCAudGl0bGUge2Rpc3BsYXk6IG5vbmU7fQ=='
 				})
-				console.log(WxApi)
+				// console.log(WxApi)
 			});
 			Script.addEventListener("error", () => {
 				self.printError("Failed to load ")

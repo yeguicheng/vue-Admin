@@ -14,10 +14,20 @@
 				<el-table-column v-else :key="items.id" :prop="items.Key" :width="items.width" :label="items.label"></el-table-column>
 			</template>
 		</el-table>
-		<!-- 分页 -->
-		<el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="PagingParams.currentPage"
-		 :page-sizes="PagingParams.pageSizes" :page-size="PagingParams.pageSize" :total="PagingParams.total" layout="total, sizes, prev, pager, next, jumper">
-		</el-pagination>
+		<div class="black-space-15">
+			<el-row>
+				<el-col :span="4">
+					<slot name="BatchDelete"></slot>
+				</el-col>
+				<el-col :span="20">
+					<!-- 分页 -->
+					<el-pagination class="pull-right" background @size-change="handleSizeChange" @current-change="handleCurrentChange"
+					 :current-page="PagingParams.currentPage" :page-sizes="PagingParams.pageSizes" :page-size="PagingParams.pageSize"
+					 :total="PagingParams.total" layout="total, sizes, prev, pager, next, jumper">
+					</el-pagination>
+				</el-col>
+			</el-row>
+		</div>
 	</div>
 
 </template>
@@ -47,11 +57,16 @@
 			options: {
 				type: Object,
 				default: () => {}
+			},
+			SelectedRowData: {
+				type: Object,
+				default: () => {}
 			}
 		},
 		setup(props, {
 			root,
-			emit
+			emit,
+			resf
 		}) {
 			// 表格数据
 			const {
@@ -90,24 +105,46 @@
 					}
 				}
 			}
-			const SelectionChange = (selection) => {
+			// 重新更新表格的数据（无参时）
+			const initTableData = () => {
+				TableData_Method(datas.requireData)
+			}
+			// 重新更新表格的数据（有参时）
+			const SearchTableData = (params) => {
+				const params_data = Object.assign({}, datas.requireData.data, {
+					[params.KeyWord.value]: params.content
+				})
+				datas.requireData.data = params_data;
+				TableData_Method(datas.requireData)
+			}
+			// 多选项发生改变时
+			const SelectionChange = (val) => {
+				const row_data = {
+					id: val.map(items => items.id)
+				}
+				/*
+					方法1：
+						通过sync修饰符传递数据给父组件
+				*/
+				emit("update:SelectedRowData", row_data);
 				// 执行父组件的函数
-				emit("selection-change", selection)
+				// emit("selection-change", selection)
+				// 
 			}
 			// watch监听
 			watch([() => TableData.item, () => TableData.total], ([tableData, totalCount]) => {
 				const res = JSON.parse(JSON.stringify(tableData))
-				if (res && res.length !== 0) {
-					res.map(items => {
-						items["Switch"] = true
-					})
-					datas.T_body = res
-				}
+				// if (res && res.length !== 0) {
+				// 	res.map(items => {
+				// 		items["Switch"] = true
+				// 	})
+				// 	datas.T_body = res
+				// }
+				datas.T_body = res
 				changeTotal(totalCount)
 			})
 			// 页码监听
 			watch([() => PagingParams.pageSize, () => PagingParams.currentPage], ([pageSize, currentPage]) => {
-
 				if (datas.requireData.data) {
 					Object.assign(datas.requireData.data, {
 						pageNumber: currentPage,
@@ -126,11 +163,16 @@
 				PagingParams,
 				handleSizeChange,
 				handleCurrentChange,
-				SelectionChange
+				SelectionChange,
+				initTableData,
+				SearchTableData
 			}
 		}
 	}
 </script>
 
-<style>
+<style scoped>
+	.black-space-15 {
+		padding: 15px 0;
+	}
 </style>

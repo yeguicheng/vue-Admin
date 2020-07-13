@@ -322,7 +322,6 @@ export default {
           };
           if (modal.value === "login") {
             let res = await context.root.$store.dispatch("app/login", FormData);
-            console.log(res);
             Message(res.data);
           } else {
             let res = await API_Register(FormData);

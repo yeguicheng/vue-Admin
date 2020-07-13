@@ -63,3 +63,15 @@ export function loadData(paramsed) {
 	})
 
 }
+
+// 获取省、市、区
+export function cityPicker(data) {
+	const url = "/cityPicker/";
+	return Post(url, data)
+}
+
+// 获取七牛云toKen
+export function QiniuToken(data) {
+	const url = "/uploadImgToken/";
+	return Post(url, data)
+}

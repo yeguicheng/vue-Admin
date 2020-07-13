@@ -6,7 +6,8 @@
 					<label for>分类:</label>
 					<div class="warp-content">
 						<el-select v-model="datas.Info_rmation.value" placeholder="请选择" style="width:100%">
-							<el-option v-for="item in datas.options_CateGory" :key="item.id" :label="item.category_name" :value="item.id"></el-option>
+							<el-option v-for="item of datas.options_CateGory" :key="item.id" :label="item.category_name" :value="item.id">
+							</el-option>
 						</el-select>
 					</div>
 				</div>
@@ -24,7 +25,7 @@
 				<div class="label-wrap key-word">
 					<label for>关键字:</label>
 					<div class="warp-content">
-						<el-select :options="datas.options" />
+						<key-el-select :options="datas.options" v-model="datas.Info_rmation.KeyWord" @SelectMethod="_SelectMethod" />
 						<!-- <el-select v-model="datas.Info_rmation.KeyWord" style="width:100%">
 							<el-option v-for="items of datas.options2" :key="items.value" :label="items.label" :value="items.value"></el-option>
 						</el-select> -->
@@ -45,7 +46,9 @@
 		<div class="black-space-30"></div>
 		<!-- 表格数据 -->
 		<el-table :data="datas.table_data" border style="width: 100%" v-loading="datas.loading" @selection-change="SeleceChange">
+			<!-- 多选 -->
 			<el-table-column type="selection" width="47"></el-table-column>
+			<!-- 表格的表头 -->
 			<el-table-column prop="title" label="标题" width="420" min-width="400"></el-table-column>
 			<el-table-column prop="categoryId" label="类别" width="100" :formatter="toCategory"></el-table-column>
 			<el-table-column prop="createDate" label="日期" :formatter="toDate" width="200"></el-table-column>
@@ -104,13 +107,13 @@
 		onMounted
 	} from "@vue/composition-api";
 	// 自封装的下拉列表
-	import ElSelect from "@/components/El-Select"
+	import KeyElSelect from "@/components/El-Select"
 	export default {
 		name: "InfomationList",
 		components: {
 			Dialog,
 			DialogEdit,
-			ElSelect
+			KeyElSelect
 		},
 		setup(props, {
 			root
@@ -129,15 +132,14 @@
 			/*ref */
 			/*reactive*/
 			const datas = reactive({
+				SelectVal: "",
 				current_id: [], //分类id
-				dialog_info: false, //弹窗中的开头状态
+				dialog_info: false, //弹窗中的开关状态
 				dialog_edit: false,
 				editId: null,
 				loading: false, //表单加载状态
 				options_CateGory: [], //分类选项中的数据
-				options: {
-					values: ["id", "title"]
-				}, //关键字选项中的数据
+				options: ["id", "title"], //关键字选项中的数据
 				Info_rmation: {
 					value: "",
 					value2: "",
@@ -265,7 +267,7 @@
 					datas.loading = false;
 				}
 			}
-			// 搜索时的数据
+			// 搜索时需要的数据
 			const FormData = () => {
 				let params = {
 					pageNumber: datas.pages.pageNumber,
@@ -282,6 +284,7 @@
 				}
 				// 关键字
 				if (datas.Info_rmation.KeyWord && datas.Info_rmation.search_keyWord) {
+					// 接口需要的键值对
 					params[datas.Info_rmation.KeyWord] = datas.Info_rmation.search_keyWord;
 				}
 				return params;
@@ -290,6 +293,16 @@
 			// 搜索
 			const Search = () => {
 				API_infoList()
+			}
+			// 分类Select中的Change事件
+			const _CatgorySelectMethod = (resVal) => {
+				// datas.Info_rmation.value
+				console.log("model事件!", resVal)
+			}
+			// Select中的change事件
+			const _SelectMethod = (resVal) => {
+				datas.Info_rmation.KeyWord = resVal;
+				// console.log("model事件!", datas.Info_rmation.KeyWord)
 			}
 			// watch监听器
 			watch(() => Category_data.Category, (value) => {
@@ -316,6 +329,8 @@
 				Search,
 				Info_Edit,
 				Info_Edit_Details,
+				_SelectMethod,
+				_CatgorySelectMethod,
 				/* reactive */
 				datas,
 			};

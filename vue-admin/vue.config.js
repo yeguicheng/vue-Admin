@@ -1,5 +1,5 @@
 const path = require("path");
-console.log(process.env.NODE_ENV)
+// console.log(process.env.NODE_ENV)
 module.exports = {
 	// 基本路径
 	publicPath: process.env.NODE_ENV === "production" ? "" : "/",

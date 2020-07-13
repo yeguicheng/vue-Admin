@@ -2,6 +2,12 @@ import {
 	Get_Category_All
 } from "@/api/news.js"
 const common = {
+	state: {
+		qiniuURL: "http://qny.ygc.gold/"
+	},
+	getters: {
+		["GET_QINIU_URL"]: state => state.qiniuURL
+	},
 	actions: {
 		["GetCategory"](context, data) {
 			/*方法1*/
