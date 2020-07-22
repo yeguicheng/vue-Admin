@@ -1,5 +1,5 @@
 const path = require("path");
-// console.log(process.env.NODE_ENV)
+console.log([process.env.VUE_APP_BASEURL])
 module.exports = {
 	// 基本路径
 	publicPath: process.env.NODE_ENV === "production" ? "" : "/",
@@ -67,6 +67,7 @@ module.exports = {
 	 */
 	pwa: {},
 	// webpack-dev-server 相关配置
+	//生产环境上不会执行这个
 	devServer: {
 		open: false, // 编译完成是否打开网页
 		host: "0.0.0.0", // 指定使用地址，默认localhost,0.0.0.0代表可以被外界访问
@@ -77,12 +78,16 @@ module.exports = {
 		//配置代理跨域
 		proxy: {
 			// 在开发环境下有效
-			'/devapi': {
+			/**
+			 * @param 要用变量，则需要这种写法：‘[process.env.VUE_APP_BASEURL]’
+			 * 
+			 */
+			[process.env.VUE_APP_BASEURL]: {
 				target: "http://www.web-jshtml.cn/productapi/token", //后面加上“token”是因为会返回一个“用户信息加上token”的接口
 				// ws: true,
 				changOrigin: true,
 				pathRewrite: { //http://localhost:8090/api/getSms/
-					'^/devapi': '', //http://www.web-jshtml.cn/productapi/空
+					[`^${process.env.VUE_APP_BASEURL}`]: '', //http://www.web-jshtml.cn/productapi/token/空,否则就是“ http://www.web-jshtml.cn/productapi/token/devapi ”
 				}
 			}
 		},

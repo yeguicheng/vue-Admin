@@ -12,7 +12,7 @@
 		onMounted
 	} from "@vue/composition-api"
 	export default {
-		name: "El-Select",
+		name: "El_Select",
 		props: {
 			options: {
 				type: Array,
@@ -22,7 +22,10 @@
 				type: Object,
 				default: () => {}
 			},
-			SelectVal: String
+			SelectVal: {
+				type: String,
+				default: ""
+			}
 		},
 		model: {
 			prop: "SelectVal",
@@ -36,7 +39,7 @@
 				SelectVal: "",
 				SelectData: [],
 				Data_Origin: [{
-						value: 'username',
+						value: 'truename',
 						label: '姓名'
 					},
 					{
@@ -71,12 +74,17 @@
 					res && AfterVal.push(res);
 				})
 				datas.SelectData = AfterVal;
+				// 如果用户没有改变下拉选项，则使用用户给定的默认值回显内容
+				emit("update:key_word_selected", datas.SelectData[0])
+				
 			}
 			// 选择改变时
 			const updateVal = (val) => {
 				const filter_data = Object.assign(datas.Data_Origin);
 				const res = filter_data.find(items => items.value === val);
+				//这个是选项对象。接口的参数
 				emit("update:key_word_selected", res)
+				//这个是选项的laber内容
 				emit("SelectMethod", val)
 			}
 			// 点击清除图标时

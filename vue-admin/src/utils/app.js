@@ -29,3 +29,21 @@ export function setUsername(valus) {
 export function RemoveUsername() {
      cookie.remove(AdminUsername)
 }
+// 数组对象去重
+export function duplicate_removal(arr) {
+	const leng = arr.length;
+	let list = [];
+	let objs = {};
+	for (let i = 0; i < leng; i++) {
+		for (const key in arr[i]) {
+			if (objs[key] != arr[i][key]) {
+				objs = arr[i]
+			} else {
+				continue;
+			}
+			list.push(objs)
+		}
+
+	}
+	return list;
+}

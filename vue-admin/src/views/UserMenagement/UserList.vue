@@ -21,7 +21,10 @@
 				</div>
 			</el-col>
 			<el-col :span="4">
-				<el-button class="pull-right" type="danger" @click="AddUser">添加用户</el-button>
+				<!-- 使用全局方法实现按钮权限设置 -->
+				<!-- <el-button class="pull-right" type="danger" @click="AddUser" v-if="ButtonJurisdiction('user:add')">添加用户</el-button> -->
+				<!-- 使用全局指令实现按钮权限设置 -->
+				<el-button class="pull-right" type="danger" @click="AddUser" v-ButtonJurisdiction="'user:add'">添加用户</el-button>
 			</el-col>
 		</el-row>
 		<div class="black-space-30"></div>
@@ -37,12 +40,19 @@
 			</template>
 			<!-- 作用域插槽 -->
 			<template v-slot:Operation="slotData">
-				<el-button type="danger" size="mini" @click="DeleteItem(slotData.data.id)">删除</el-button>
-				<el-button type="success" size="mini" @click="UserEdit(slotData.data)">编辑</el-button>
+				<!-- 使用全局方法实现按钮权限设置 -->
+				<!-- <el-button type="danger" size="mini" @click="DeleteItem(slotData.data.id)" v-if="ButtonJurisdiction('user:del')">删除</el-button> -->
+				<!-- <el-button type="success" size="mini" @click="UserEdit(slotData.data)" v-if="ButtonJurisdiction('user:edit')">编辑</el-button> -->
+				<!-- 使用全局指令实现按钮权限设置 -->
+				<el-button type="danger" size="mini" @click="DeleteItem(slotData.data.id)" v-ButtonJurisdiction="'user:del'">删除</el-button>
+				<el-button type="success" size="mini" @click="UserEdit(slotData.data)" v-ButtonJurisdiction="'user:edit'">编辑</el-button>
 			</template>
 			<!-- 具名插槽 -->
 			<template v-slot:BatchDelete>
-				<el-button size="mini" @click="BatchDeleted">批量删除</el-button>
+				<!-- 使用全局方法实现按钮权限设置 -->
+				<!-- <el-button size="mini" @click="BatchDeleted" v-if="ButtonJurisdiction('user:batchDel')">批量删除</el-button> -->
+				<!-- 使用全局指令实现按钮权限设置 -->
+				<el-button size="mini" @click="BatchDeleted" v-ButtonJurisdiction="'user:batchDel'">批量删除</el-button>
 			</template>
 		</el-table>
 		<!-- 添加用户和编辑用户的弹窗  -->
@@ -95,12 +105,12 @@
 				// 多选项中的数据
 				SelectedRowData: {},
 				dialog_addUser: false, //弹窗中的开关状态
-				KeyWord: "",
+				KeyWord: "姓名",
 				Info_rmation: {
 					KeyWord: {},
 					content: "",
 				},
-				options: ["username", "phone"],
+				options: ["truename", "phone"],
 				Table_Options: {
 					requireData: {
 						url: requireURLs.getList,
@@ -254,7 +264,7 @@
 				refs["UesrTable"].SearchTableData(datas.Info_rmation)
 			}
 			// 点击清除图标时
-			const Cleared = () => {		
+			const Cleared = () => {
 				root.$set(datas.Info_rmation, "content", "")
 				// root.$set(datas.Info_rmation, "KeyWord", "")
 				// refs["UesrTable"].initTableData()

@@ -10,7 +10,7 @@ export function GetCode(data) {
 
 //登录接口
 export function Login(data) {
-	let url = "/login/"
+	const url = "/login/"
 	return Post(url, data)
 }
 
@@ -19,9 +19,15 @@ export function Register(data) {
 	const url = '/register/'
 	return Post(url, data)
 }
+
+//退出接口
+export function Logout(data = {}) {
+	const url = "/logout/"
+	return Post(url, data)
+}
 /**
  * 
- * @property {type} 用户角色 
+ * @property {type} 获取某个用户的角色权限列表
  */
 export function GetUserRole(data = {}) {
 	const url = "/userRole/";

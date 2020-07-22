@@ -39,7 +39,11 @@
 				<el-button type="danger" style="width:100%" size="medium" @click="Search">搜索</el-button>
 			</el-col>
 			<el-col :span="2" :push="2">
-				<el-button class="pull-right" type="danger" style="width:100%" size="medium" @click="datas.dialog_info = true">新增</el-button>
+				<!-- 使用全局指令实现按钮权限设置 -->
+				<!-- <el-button class="pull-right" type="danger" style="width:100%" size="medium" @click="datas.dialog_info = true" v-if="ButtonJurisdiction('info:add')">新增</el-button>-->
+				<!-- 使用全局指令实现按钮权限设置 -->
+				<el-button class="pull-right" type="danger" style="width:100%" size="medium" @click="datas.dialog_info = true"
+				 v-ButtonJurisdiction="'info:add'">新增</el-button>
 			</el-col>
 		</el-row>
 		<!-- 点位元素 -->
@@ -55,10 +59,18 @@
 			<el-table-column prop="user" label="管理员" width="115"></el-table-column>
 			<el-table-column label="操作">
 				<template slot-scope="scope">
-					<el-button type="danger" size="mini" @click="delete_item(scope.row.id)">删除</el-button>
-					<el-button type="success" size="mini" @click="Info_Edit(scope.row.id)">编辑</el-button>
+					<!-- 使用全局方法实现按钮权限设置 -->
+					<!-- <el-button type="danger" size="mini" @click="delete_item(scope.row.id)" v-ButtonJurisdiction="'info:edit'">自定义</el-button>
+					<el-button type="danger" size="mini" @click="delete_item(scope.row.id)" v-if="ButtonJurisdiction('info:del')">删除</el-button>
+					<el-button type="success" size="mini" @click="Info_Edit(scope.row.id)" v-if="ButtonJurisdiction('info:edit')">编辑</el-button> -->
 					<!-- <router-link :to="{name:'infoDetails',params:{id:scope.row.id,title:scope.row.title}}" class="margin-left-10"> -->
-					<el-button type="success" size="mini" @click="Info_Edit_Details(scope.row)">编辑详情</el-button>
+					<!-- <el-button type="success" size="mini" @click="Info_Edit_Details(scope.row)" v-if="ButtonJurisdiction('info:detailed')">编辑详情</el-button> -->
+					<!-- </router-link> -->
+					<!-- 使用全局指令实现按钮权限设置 -->
+					<el-button type="danger" size="mini" @click="delete_item(scope.row.id)" v-ButtonJurisdiction="'info:del'">删除</el-button>
+					<el-button type="success" size="mini" @click="Info_Edit(scope.row.id)" v-ButtonJurisdiction="'info:edit'">编辑</el-button>
+					<!-- <router-link :to="{name:'infoDetails',params:{id:scope.row.id,title:scope.row.title}}" class="margin-left-10"> -->
+					<el-button type="success" size="mini" @click="Info_Edit_Details(scope.row)" v-ButtonJurisdiction="'info:detailed'">编辑详情</el-button>
 					<!-- </router-link> -->
 				</template>
 			</el-table-column>
@@ -68,7 +80,10 @@
 		<!-- 分页 -->
 		<el-row>
 			<el-col :span="12">
+				<!-- 使用全局方法实现按钮权限设置 -->
 				<el-button size="medium" @click="delete_all">批量删除</el-button>
+				<!-- 使用全局指令实现按钮权限设置 -->
+				<!-- <el-button size="medium" @click="delete_all" v-ButtonJurisdiction = "'info:batchDel'">批量删除</el-button> -->
 			</el-col>
 			<el-col :span="12">
 				<el-pagination class="pull-right" :current-page="1" :page-size="5" @current-change="handle_currentChange"
@@ -193,6 +208,9 @@
 			}
 			const toCategory = (row) => {
 				let res = datas.options_CateGory.filter(items => items.id == row.categoryId);
+				if (res.length === 0) {
+					return false;
+				}
 				return res[0].category_name;
 			}
 			// 当点击某个页码时触发
@@ -352,5 +370,14 @@
 		&.key-word {
 			@include labelDom(center, 99, 40);
 		}
+	}
+
+	// 按钮权限元素
+	.Button-Show {
+		display: inline-block;
+	}
+
+	.Button-hidden {
+		display: none;
 	}
 </style>

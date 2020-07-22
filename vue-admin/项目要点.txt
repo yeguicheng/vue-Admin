@@ -22,4 +22,18 @@
 四、组件封装
 	1、组件封装的过程要做些什么？
 	2、最终结果要做些什么？
+	
+五、全局方法的设置：
+	方法1：
+		export default{
+			install(Vue, options) {
+				Vue.prototype.confirm = () => {
+				}
+			}
+		}
+		使用Vue.use(globalMethods) 注入；
+	方法2：
+		
+六、解决重复路由的逻辑：
+	在每次添加动态路由前，先将路由记录恢复为默认的路由
     

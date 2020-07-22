@@ -37,6 +37,7 @@
 		ref,
 		reactive,
 		onMounted,
+		onActivated,
 		watch
 	} from "@vue/composition-api";
 	import {
@@ -77,7 +78,7 @@
 					action: "http://up-z2.qiniup.com"
 				},
 				// 当前详情页面的信息id
-				Info_id: root.$route.params.id,
+				Info_id: "",
 				// 当前详情页面的下拉菜单数据（全部分类）
 				Category_data: [],
 				// 富文本的配置
@@ -155,10 +156,14 @@
 			})
 			onMounted(() => {
 				// 获取信息分类列表
-				Get_CategoryAll()
-				// 获取某个信息的详情数据
+				if (Category_data.Category.length === 0) Get_CategoryAll()
+				// // 获取某个信息的详情数据
+				// API_InfoList(datas.Info_id)
+			})
+			onActivated(() => {
+				datas.Info_id = root.$route.params.id;
+				// 获取某个信息的详情数据。由于设置了路由缓存，所以要使用此生命周期
 				API_InfoList(datas.Info_id)
-
 			})
 			return {
 				InfoDateiForm,

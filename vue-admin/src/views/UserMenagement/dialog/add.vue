@@ -25,6 +25,20 @@
 					<el-checkbox v-for="item of datas.RoleData" :label="item.role" :key="item.role">{{item.name}}</el-checkbox>
 				</el-checkbox-group>
 			</el-form-item>
+			<el-form-item label="按钮权限：" :label-width="datas.formLabelWidth" prop="btnPerm">
+				<div v-if="datas.btnPermData && datas.btnPermData.length !==0">
+					<template v-for="items of datas.btnPermData">
+						<h4>{{items.name}}</h4>
+						<template v-if="items.perm && items.perm.length !==0">
+							<el-checkbox-group v-model="datas.form.btnPerm">
+								<el-checkbox v-for="vals of items.perm" :label="vals.value" :key="vals.value">{{vals.name}}</el-checkbox>
+							</el-checkbox-group>
+						</template>
+					</template>
+				</div>
+
+
+			</el-form-item>
 		</el-form>
 		<div slot="footer" class="dialog-footer">
 			<el-button @click="DialogClose">取 消</el-button>
@@ -49,6 +63,8 @@
 	} from "@/utils/index.js"
 	import {
 		GetSystem,
+		GetRole,
+		GetPermButton,
 		UserAdd,
 		UserEdit
 	} from "@/api/user.js"
@@ -157,6 +173,7 @@
 				formLabelWidth: "95px",
 				loading: false,
 				RoleData: [],
+				btnPermData: [],
 				form: {
 					username: "",
 					truename: "",
@@ -165,6 +182,7 @@
 					role: [],
 					region: {},
 					phone: '',
+					btnPerm: []
 				},
 				Add_User_Rules: {
 					username: [{
@@ -198,7 +216,7 @@
 						required: true,
 						validator: validaterole,
 						trigger: "blur"
-					}],
+					}]
 				}
 			})
 			// methods
@@ -209,16 +227,26 @@
 				// 因为props传值是单向的（子组件不能改变父组件的数据），所以使用这种方法的作用是：即想改变父组件中的值，从而再监听父组件的值来改变子组件的值
 				emit("update:flag", false)
 			}
-			// 获取用户角色的权限接口
 			const API_GetSystem = async () => {
-				let {
-					data
-				} = await GetSystem();
-				if (data.resCode === 0) {
-					datas.RoleData = data.data;
-				} else {
-					throw data.message;
+				if (datas.RoleData.length === 0) {
+					// 获取用户角色的权限接口
+					const Role_Res = await GetRole();
+					datas.RoleData = Role_Res.data.data;
 				}
+
+				if (datas.btnPermData.length === 0) {
+					//  获取用户按钮权限列表接口
+					const PermButton_Res = await GetPermButton();
+					datas.btnPermData = PermButton_Res.data.data;
+				}
+				console.log(datas.btnPermData)
+				// if ((Role_Res.data && Role_Res.data.resCode === 0) && PermButton_Res.data && PermButton_Res.data.resCode === 0) {
+				// 	datas.RoleData = Role_Res.data.data;
+				// 	datas.btnPerm = PermButton_Res.data.data;
+				// 	console.log(datas.btnPerm)
+				// } else {
+				// 	throw Role_Res.data.message;
+				// }
 
 			}
 			// 添加用户
@@ -272,12 +300,15 @@
 				const editData = props.UserEdit;
 				// 如果存在 “id”,则是编辑操作，否则是添加操作
 				if (editData.id) {
-					editData.role = editData.role.split(",");
+					// 转数组
+					editData.role = editData.role ? editData.role.split(",") : [];
+					editData.btnPerm = editData.btnPerm ? editData.btnPerm.split(",") : [];
+					// 转对象
 					editData.region = JSON.parse(editData.region)
 					for (const key in editData) {
 						datas.form[key] = editData[key];
 					}
-					console.log(datas.form)
+					console.log(datas.form.btnPerm)
 				} else {
 					datas.form.id && delete datas.form.id;
 					// 重置表单
@@ -290,6 +321,7 @@
 						let params = JSON.parse(JSON.stringify(datas.form));
 						// 将数组转为字符串
 						params.role = params.role.join();
+						params.btnPerm = params.btnPerm.join();
 						// 将对象转为json字符串
 						params.region = JSON.stringify(params.region)
 						// 关闭窗口
@@ -304,7 +336,7 @@
 							API_UserAdd(params)
 						}
 						// 更新表格数据 refs.UesrTable.initTableData();
-						console.log("parent.$refs.UesrTable.initTableData：",parent.$refs.UesrTable.initTableData)
+						// console.log("parent.$refs.UesrTable.initTableData：",parent.$refs.UesrTable.initTableData)
 						parent.$refs.UesrTable.initTableData()
 					} else {
 						root.$message({
